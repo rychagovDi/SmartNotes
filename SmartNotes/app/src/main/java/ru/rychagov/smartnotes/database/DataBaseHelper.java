@@ -5,12 +5,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 
-public class DataBaseHelper extends SQLiteOpenHelper {
+class DataBaseHelper extends SQLiteOpenHelper {
 
 	private static final String DATABASE_NAME = "smartNote.db";
 	private static final int DATABASE_VERSION = 1;
 
-	public DataBaseHelper(Context context) {
+	DataBaseHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 	}
 
@@ -31,12 +31,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
 	}
 
-	public static class NotesEntry implements BaseColumns {
-		public static final String TABLE_NAME = "notes_entry";
-		public static final String _ID = BaseColumns._ID;
-		public static final String COLUMN_TITLE = "title";
-		public static final String COLUMN_TEXT = "text";
-		public static final String COLUMN_TIME = "time";
-		public static final String COLUMN_PRIORITY = "priority";
+	static class NotesEntry implements BaseColumns {
+		static final String TABLE_NAME = "notes_entry";
+		static final String _ID = BaseColumns._ID;
+		static final String COLUMN_TITLE = "title";
+		static final String COLUMN_TEXT = "text";
+		static final String COLUMN_TIME = "time";
+		static final String COLUMN_PRIORITY = "priority";
 	}
 }

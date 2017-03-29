@@ -44,4 +44,26 @@ public class DataBaseUtils {
 		return notes;
 	}
 
+	public static int getMaxID(Context context) {
+		DataBaseHelper dataBaseHelper = new DataBaseHelper(context);
+		SQLiteDatabase db = dataBaseHelper.getWritableDatabase();
+
+		int maxID = 0;
+
+		Cursor cursor = db.query(
+						NotesEntry.TABLE_NAME,
+						new String[] {String.format("MAX(%s)", NotesEntry._ID)},
+						null, null, null, null, null);
+
+		if (cursor != null) {
+			cursor.moveToFirst();
+			maxID = cursor.getInt(cursor.getColumnIndex(String.format("MAX(%s)", NotesEntry._ID)));
+			cursor.close();
+		}
+
+		db.close();
+
+		return maxID;
+	}
+
 }

@@ -7,6 +7,8 @@ import ru.rychagov.smartnotes.R;
 
 public class NotesListActivity extends Activity {
 
+	private static final String TAG = "NotesListActivity";
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
