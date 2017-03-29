@@ -6,16 +6,24 @@ public class Note {
 
 	private static final String TAG = "Note";
 
+	private int id;
 	private String title;
 	private String text;
 	private long time;
+	private Priority priority;
 
-	public Note(String title, String text, long time) {
+	public Note(int id, String title, String text, long time, Priority priority) {
+		this.id = id;
 		this.title = title;
 		this.text = text;
 		this.time = time;
+		this.priority = priority;
 
 		Log.i(TAG, String.format("Note was created. %s", this));
+	}
+
+	public int getId() {
+		return id;
 	}
 
 	public String getTitle() {
@@ -28,6 +36,10 @@ public class Note {
 
 	public long getTime() {
 		return time;
+	}
+
+	public Priority getPriority() {
+		return priority;
 	}
 
 	@Override
