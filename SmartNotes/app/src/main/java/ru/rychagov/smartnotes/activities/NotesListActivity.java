@@ -1,7 +1,9 @@
-package ru.rychagov.smartnotes;
+package ru.rychagov.smartnotes.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
+
+import ru.rychagov.smartnotes.R;
 
 public class NotesListActivity extends Activity {
 
