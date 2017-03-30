@@ -18,6 +18,7 @@ public class DataBaseUtils {
 	 * Обращается к базе данных и получает из нее список заметок
 	 */
 	public static ArrayList<Note> getNotes(Context context) {
+
 		DataBaseHelper dataBaseHelper = new DataBaseHelper(context);
 		SQLiteDatabase db = dataBaseHelper.getReadableDatabase();
 
@@ -50,18 +51,10 @@ public class DataBaseUtils {
 	 */
 	public static void addNote(Context context, Note note) {
 
-		ContentValues values = new ContentValues();
-		values.put(NotesEntry._ID, note.getId());
-		values.put(NotesEntry.COLUMN_TITLE, note.getTitle());
-		values.put(NotesEntry.COLUMN_TEXT, note.getText());
-		values.put(NotesEntry.COLUMN_TIME, note.getTime());
-		values.put(NotesEntry.COLUMN_PRIORITY, note.getPriority().getInt());
-
-
 		DataBaseHelper dataBaseHelper = new DataBaseHelper(context);
 		SQLiteDatabase db = dataBaseHelper.getWritableDatabase();
 
-		db.insert(NotesEntry.TABLE_NAME, null, values);
+		db.insert(NotesEntry.TABLE_NAME, null, getContentValues(note));
 		db.close();
 	}
 
@@ -69,6 +62,7 @@ public class DataBaseUtils {
 	 * Удаляет заметку Note из базы данных
 	 */
 	public static void deleteNote(Context context, Note note) {
+
 		DataBaseHelper dataBaseHelper = new DataBaseHelper(context);
 		SQLiteDatabase db = dataBaseHelper.getWritableDatabase();
 
@@ -78,9 +72,21 @@ public class DataBaseUtils {
 	}
 
 	/**
+	 * Обновляет информацию о заметке Note в базе данных
+	 */
+	public static void updateNote(Context context, Note note) {
+
+		DataBaseHelper dataBaseHelper = new DataBaseHelper(context);
+		SQLiteDatabase db = dataBaseHelper.getWritableDatabase();
+
+		db.update(NotesEntry.TABLE_NAME, getContentValues(note), NotesEntry._ID, new String[] {"" + note.getId()});
+	}
+
+	/**
 	 * Возвращает максимальный ID среди всех заметок
 	 */
 	public static int getMaxID(Context context) {
+
 		DataBaseHelper dataBaseHelper = new DataBaseHelper(context);
 		SQLiteDatabase db = dataBaseHelper.getWritableDatabase();
 
@@ -100,6 +106,21 @@ public class DataBaseUtils {
 		db.close();
 
 		return maxID;
+	}
+
+	/**
+	 * Вспомогательный метод, возвращает ContentValues
+	 */
+	private static ContentValues getContentValues(Note note) {
+
+		ContentValues values = new ContentValues();
+		values.put(NotesEntry._ID, note.getId());
+		values.put(NotesEntry.COLUMN_TITLE, note.getTitle());
+		values.put(NotesEntry.COLUMN_TEXT, note.getText());
+		values.put(NotesEntry.COLUMN_TIME, note.getTime());
+		values.put(NotesEntry.COLUMN_PRIORITY, note.getPriority().getInt());
+
+		return values;
 	}
 
 }
