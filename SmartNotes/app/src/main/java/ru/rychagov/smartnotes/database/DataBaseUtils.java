@@ -1,5 +1,6 @@
 package ru.rychagov.smartnotes.database;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -14,7 +15,7 @@ import static ru.rychagov.smartnotes.database.DataBaseHelper.NotesEntry;
 public class DataBaseUtils {
 
 	/**
-		Обращается к базе данных и получает из нее список заметок
+	 * Обращается к базе данных и получает из нее список заметок
 	 */
 	public static ArrayList<Note> getNotes(Context context) {
 		DataBaseHelper dataBaseHelper = new DataBaseHelper(context);
@@ -44,6 +45,29 @@ public class DataBaseUtils {
 		return notes;
 	}
 
+	/**
+	 * Добавляет заметку Note в базу данных
+	 */
+	public static void addNote(Context context, Note note) {
+
+		ContentValues values = new ContentValues();
+		values.put(NotesEntry._ID, note.getId());
+		values.put(NotesEntry.COLUMN_TITLE, note.getTitle());
+		values.put(NotesEntry.COLUMN_TEXT, note.getText());
+		values.put(NotesEntry.COLUMN_TIME, note.getTime());
+		values.put(NotesEntry.COLUMN_PRIORITY, note.getPriority().getInt());
+
+
+		DataBaseHelper dataBaseHelper = new DataBaseHelper(context);
+		SQLiteDatabase db = dataBaseHelper.getWritableDatabase();
+
+		db.insert(NotesEntry.TABLE_NAME, null, values);
+		db.close();
+	}
+
+	/**
+	 * Возвращает максимальный ID среди всех заметок
+	 */
 	public static int getMaxID(Context context) {
 		DataBaseHelper dataBaseHelper = new DataBaseHelper(context);
 		SQLiteDatabase db = dataBaseHelper.getWritableDatabase();
