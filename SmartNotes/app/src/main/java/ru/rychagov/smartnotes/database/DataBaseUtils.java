@@ -80,6 +80,8 @@ public class DataBaseUtils {
 		SQLiteDatabase db = dataBaseHelper.getWritableDatabase();
 
 		db.update(NotesEntry.TABLE_NAME, getContentValues(note), NotesEntry._ID, new String[] {"" + note.getId()});
+
+		db.close();
 	}
 
 	/**
