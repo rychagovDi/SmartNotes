@@ -66,6 +66,18 @@ public class DataBaseUtils {
 	}
 
 	/**
+	 * Удаляет заметку Note из базы данных
+	 */
+	public static void deleteNote(Context context, Note note) {
+		DataBaseHelper dataBaseHelper = new DataBaseHelper(context);
+		SQLiteDatabase db = dataBaseHelper.getWritableDatabase();
+
+		db.delete(NotesEntry.TABLE_NAME, NotesEntry._ID, new String[] {"" + note.getId()});
+
+		db.close();
+	}
+
+	/**
 	 * Возвращает максимальный ID среди всех заметок
 	 */
 	public static int getMaxID(Context context) {
