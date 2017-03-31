@@ -30,6 +30,18 @@ public class NotesListActivity extends AppCompatActivity {
 	private Context context;
 
 	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+		if (requestCode == REQUEST_CREATE_NOTE) {
+			if (resultCode == CreateNoteActivity.RESULT_ADD) {
+				updateUI();
+			}
+		}
+
+
+	}
+
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.a_notes_list);
