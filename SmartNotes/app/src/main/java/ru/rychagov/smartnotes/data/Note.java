@@ -2,6 +2,8 @@ package ru.rychagov.smartnotes.data;
 
 import android.util.Log;
 
+import java.util.Locale;
+
 public class Note {
 
 	private static final String TAG = "Note";
@@ -44,6 +46,6 @@ public class Note {
 
 	@Override
 	public String toString() {
-		return String.format("Title: %s. Timestamp: %s", title, time);
+		return String.format(Locale.ENGLISH, "Title: %s. Timestamp: %s. ID: %d", title, time, id);
 	}
 }
