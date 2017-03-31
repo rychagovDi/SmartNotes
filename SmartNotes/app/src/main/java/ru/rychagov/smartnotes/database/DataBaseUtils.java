@@ -29,7 +29,7 @@ public class DataBaseUtils {
 		if (cursor != null) {
 			cursor.moveToPosition(-1);
 
-			while (cursor.moveToFirst()) {
+			while (cursor.moveToNext()) {
 				int id = cursor.getInt(cursor.getColumnIndex(NotesEntry._ID));
 				String title = cursor.getString(cursor.getColumnIndex(NotesEntry.COLUMN_TITLE));
 				String text = cursor.getString(cursor.getColumnIndex(NotesEntry.COLUMN_TEXT));

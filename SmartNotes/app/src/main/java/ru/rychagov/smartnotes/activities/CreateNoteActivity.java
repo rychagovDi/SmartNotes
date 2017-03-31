@@ -9,6 +9,8 @@ import android.widget.Spinner;
 
 import ru.rychagov.smartnotes.R;
 import ru.rychagov.smartnotes.adapters.SpinnerAdapter;
+import ru.rychagov.smartnotes.data.Note;
+import ru.rychagov.smartnotes.data.Priority;
 import ru.rychagov.smartnotes.database.DataBaseUtils;
 
 public class CreateNoteActivity extends AppCompatActivity {
@@ -17,8 +19,8 @@ public class CreateNoteActivity extends AppCompatActivity {
 	public static final int RESULT_ADD = 2;
 
 	private Spinner spinner;
-	private EditText title;
-	private EditText text;
+	private EditText titleEdit;
+	private EditText textEdit;
 	private Context context;
 
 	@Override
@@ -30,8 +32,8 @@ public class CreateNoteActivity extends AppCompatActivity {
 
 		context = getApplicationContext();
 
-		title = (EditText) findViewById(R.id.create_note_title);
-		text = (EditText) findViewById(R.id.create_note_text);
+		titleEdit = (EditText) findViewById(R.id.create_note_title);
+		textEdit = (EditText) findViewById(R.id.create_note_text);
 
 		spinner = (Spinner) findViewById(R.id.create_note_spinner);
 		spinner.setAdapter(new SpinnerAdapter(getApplicationContext(),
@@ -46,6 +48,18 @@ public class CreateNoteActivity extends AppCompatActivity {
 
 	public void add(View view) {
 		setResult(RESULT_ADD);
+
+		int id = DataBaseUtils.getMaxID(context) + 1;
+		String title = titleEdit.getText().toString().trim();
+		String text = textEdit.getText().toString().trim();
+		long time = System.currentTimeMillis();
+		Priority priority = Priority.fromInt(spinner.getSelectedItemPosition());
+
+		Note note = new Note(id, title, text, time, priority);
+
+		DataBaseUtils.addNote(context, note);
+
+		finish();
 	}
 
 }

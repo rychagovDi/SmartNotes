@@ -9,7 +9,7 @@
     <color name="placeholder">#c4c4c4</color>
 
     <color name="priority_default">#b4b4b4</color>
-    <color name="priority_low">#5fc992</color>
-    <color name="priority_medium">#d2d168</color>
-    <color name="priority_high">#c25847</color>
+    <color name="priority_low">#85c6a4</color>
+    <color name="priority_medium">#cfcf98</color>
+    <color name="priority_high">#c17b70</color>
 </resources>
