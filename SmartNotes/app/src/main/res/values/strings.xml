@@ -4,5 +4,15 @@
     <!--NotesListActivity-->
     <string name="add_note">Добавить заметку</string>
     <string name="no_items">Нет заметок</string>
+
+    <!--CreateNoteActivity-->
     <string name="create_note_title">Заголовок</string>
+    <string name="create_note_text">Заметка</string>
+    <string name="priority">Приоритет</string>
+    <string name="priority_default">Без приоритета</string>
+    <string name="priority_low">Низкий</string>
+    <string name="priority_medium">Средний</string>
+    <string name="priority_high">Высокий</string>
+    <string name="button_add">Добавить</string>
+    <string name="button_cancel">Отменить</string>
 </resources>
