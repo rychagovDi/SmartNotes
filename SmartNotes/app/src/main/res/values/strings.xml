@@ -4,4 +4,5 @@
     <!--NotesListActivity-->
     <string name="add_note">Добавить заметку</string>
     <string name="no_items">Нет заметок</string>
+    <string name="create_note_title">Заголовок</string>
 </resources>
