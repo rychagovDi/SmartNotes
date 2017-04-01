@@ -16,4 +16,5 @@
     <string name="priority_high">Высокий</string>
     <string name="button_add">Добавить</string>
     <string name="button_cancel">Отменить</string>
+    <string name="item_deleted">Заметка удалена</string>
 </resources>

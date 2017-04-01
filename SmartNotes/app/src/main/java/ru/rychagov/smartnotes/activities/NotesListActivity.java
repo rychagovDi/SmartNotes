@@ -2,6 +2,7 @@ package ru.rychagov.smartnotes.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -30,6 +31,9 @@ public class NotesListActivity extends AppCompatActivity {
 	private RecyclerView recyclerView;
 	private TextView placeholder;
 	private Context context;
+
+	private Note removedNote;
+	private int removedNotePosition;
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -95,13 +99,32 @@ public class NotesListActivity extends AppCompatActivity {
 		@Override
 		public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
 			// TODO Snackbar on delete
-			DataBaseUtils.deleteNote(context, notes.get(viewHolder.getAdapterPosition()));
-			notes.remove(viewHolder.getAdapterPosition());
-			recyclerView.getAdapter().notifyItemRemoved(viewHolder.getAdapterPosition());
+
+			removedNotePosition = viewHolder.getAdapterPosition();
+			removedNote = notes.get(removedNotePosition);
+
+			DataBaseUtils.removeNote(context, removedNote);
+			notes.remove(removedNotePosition);
+			recyclerView.getAdapter().notifyItemRemoved(removedNotePosition);
+
+			showSnackbar();
 
 			if (notes.size() == 0) {
 				placeholder.setVisibility(View.VISIBLE);
 			}
+		}
+
+		private void showSnackbar() {
+			Snackbar.make(recyclerView, R.string.item_deleted, Snackbar.LENGTH_SHORT).
+							setAction(R.string.button_cancel, new View.OnClickListener() {
+								@Override
+								public void onClick(View v) {
+									DataBaseUtils.addNote(context, removedNote);
+									notes.add(removedNotePosition, removedNote);
+									recyclerView.getAdapter().notifyItemInserted(removedNotePosition);
+									placeholder.setVisibility(View.INVISIBLE);
+								}
+							}).show();
 		}
 	};
 

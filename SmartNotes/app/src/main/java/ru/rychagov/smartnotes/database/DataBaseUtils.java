@@ -22,7 +22,7 @@ public class DataBaseUtils {
 		DataBaseHelper dataBaseHelper = new DataBaseHelper(context);
 		SQLiteDatabase db = dataBaseHelper.getReadableDatabase();
 
-		Cursor cursor = db.query(NotesEntry.TABLE_NAME, null, null, null, null, null, null);
+		Cursor cursor = db.query(NotesEntry.TABLE_NAME, null, null, null, null, null, NotesEntry._ID);
 
 		ArrayList<Note> notes = new ArrayList<>();
 
@@ -61,7 +61,7 @@ public class DataBaseUtils {
 	/**
 	 * Удаляет заметку Note из базы данных
 	 */
-	public static void deleteNote(Context context, Note note) {
+	public static void removeNote(Context context, Note note) {
 
 		DataBaseHelper dataBaseHelper = new DataBaseHelper(context);
 		SQLiteDatabase db = dataBaseHelper.getWritableDatabase();
