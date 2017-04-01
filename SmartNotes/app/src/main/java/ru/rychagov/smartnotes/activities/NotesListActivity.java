@@ -98,8 +98,6 @@ public class NotesListActivity extends AppCompatActivity {
 
 		@Override
 		public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-			// TODO Snackbar on delete
-
 			removedNotePosition = viewHolder.getAdapterPosition();
 			removedNote = notes.get(removedNotePosition);
 

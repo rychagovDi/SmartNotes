@@ -46,6 +46,32 @@ public class DataBaseUtils {
 		return notes;
 	}
 
+	public static Note getNote(Context context, int id) {
+
+		DataBaseHelper dataBaseHelper = new DataBaseHelper(context);
+		SQLiteDatabase db = dataBaseHelper.getReadableDatabase();
+
+		Cursor cursor = db.query(NotesEntry.TABLE_NAME, null, NotesEntry._ID + "=?", new String[] {"" + id}, null, null, null);
+
+		Note note = null;
+
+		if (cursor != null) {
+			cursor.moveToFirst();
+			String title = cursor.getString(cursor.getColumnIndex(NotesEntry.COLUMN_TITLE));
+			String text = cursor.getString(cursor.getColumnIndex(NotesEntry.COLUMN_TEXT));
+			long time = cursor.getLong(cursor.getColumnIndex(NotesEntry.COLUMN_TIME));
+			Priority priority = Priority.fromInt(cursor.getInt(cursor.getColumnIndex(NotesEntry.COLUMN_PRIORITY)));
+
+			note = new Note(id, title, text, time, priority);
+
+			cursor.close();
+		}
+		
+		db.close();
+
+		return note;
+	}
+
 	/**
 	 * Добавляет заметку Note в базу данных
 	 */
