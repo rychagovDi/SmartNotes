@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import ru.rychagov.smartnotes.R;
 import ru.rychagov.smartnotes.adapters.SpinnerAdapter;
@@ -47,6 +48,12 @@ public class CreateNoteActivity extends AppCompatActivity {
 	}
 
 	public void add(View view) {
+
+		if (!isValid()) {
+			Toast.makeText(this, R.string.create_note_toast, Toast.LENGTH_SHORT).show();
+			return;
+		}
+
 		setResult(RESULT_ADD);
 
 		int id = DataBaseUtils.getMaxID(context) + 1;
@@ -60,6 +67,10 @@ public class CreateNoteActivity extends AppCompatActivity {
 		DataBaseUtils.addNote(context, note);
 
 		finish();
+	}
+
+	private boolean isValid() {
+		return (!textEdit.getText().toString().trim().equals("") && !titleEdit.getText().toString().trim().equals(""));
 	}
 
 }

@@ -8,6 +8,7 @@
     <!--CreateNoteActivity-->
     <string name="create_note_title">Заголовок</string>
     <string name="create_note_text">Заметка</string>
+    <string name="create_note_toast">Заполните все поля</string>
     <string name="priority">Приоритет</string>
     <string name="priority_default">Без приоритета</string>
     <string name="priority_low">Низкий</string>
