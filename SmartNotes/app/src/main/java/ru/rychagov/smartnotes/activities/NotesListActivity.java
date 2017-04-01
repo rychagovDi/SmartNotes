@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,6 +26,7 @@ public class NotesListActivity extends AppCompatActivity {
 
 	private static final int REQUEST_CREATE_NOTE = 1;
 
+	private ArrayList<Note> notes;
 	private RecyclerView recyclerView;
 	private TextView placeholder;
 	private Context context;
@@ -47,6 +49,8 @@ public class NotesListActivity extends AppCompatActivity {
 		context = getApplicationContext();
 
 		recyclerView = (RecyclerView) findViewById(R.id.notes_list_recycler);
+		ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+		itemTouchHelper.attachToRecyclerView(recyclerView);
 		placeholder = (TextView) findViewById(R.id.notes_list_placeholder);
 
 		updateUI();
@@ -71,14 +75,28 @@ public class NotesListActivity extends AppCompatActivity {
 	}
 
 	private void updateUI() {
-		ArrayList<Note> notes = DataBaseUtils.getNotes(context);
+		notes = DataBaseUtils.getNotes(context);
 
 		if (notes.size() != 0) {
-			placeholder.setVisibility(View.INVISIBLE); // TODO Проверить, пропадает ли автоматически при повороте экрана
 			recyclerView.setLayoutManager(new LinearLayoutManager(context));
 			recyclerView.setAdapter(new NotesAdapter(notes));
 		} else {
 			placeholder.setVisibility(View.VISIBLE);
 		}
 	}
+
+	private ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+		@Override
+		public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+			return false;
+		}
+
+		@Override
+		public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+			// TODO Snackbar on delete
+			notes.remove(viewHolder.getAdapterPosition());
+			recyclerView.getAdapter().notifyItemRemoved(viewHolder.getAdapterPosition());
+		}
+	};
+
 }
