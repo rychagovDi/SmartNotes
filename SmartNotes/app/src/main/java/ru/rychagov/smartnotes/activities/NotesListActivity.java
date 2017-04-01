@@ -37,8 +37,6 @@ public class NotesListActivity extends AppCompatActivity {
 				updateUI();
 			}
 		}
-
-
 	}
 
 	@Override
