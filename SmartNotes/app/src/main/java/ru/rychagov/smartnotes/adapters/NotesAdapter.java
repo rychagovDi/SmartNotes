@@ -8,8 +8,8 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import ru.rychagov.smartnotes.R;
+import ru.rychagov.smartnotes.NoteUtils;
 import ru.rychagov.smartnotes.data.Note;
-import ru.rychagov.smartnotes.data.Priority;
 
 public class NotesAdapter extends RecyclerView.Adapter<NotesViewHolder> {
 
@@ -29,34 +29,13 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesViewHolder> {
 	public void onBindViewHolder(NotesViewHolder holder, int position) {
 		Note note = notes.get(position);
 
-		holder.getRoot().setBackgroundResource(getColorFromPriority(note.getPriority()));
+		holder.getRoot().setBackgroundResource(NoteUtils.getColorFromPriority(note.getPriority()));
 		holder.getTitle().setText(note.getTitle());
-		// TODO написать метод по преобразованию времени в строку
-		holder.getTime().setText("" + note.getTime());
+		holder.getTime().setText(NoteUtils.getStringDate(note.getTime()));
 	}
 
 	@Override
 	public int getItemCount() {
 		return notes.size();
-	}
-
-	private int getColorFromPriority(Priority priority) {
-
-		int colorID = R.color.priority_default;
-
-		switch (priority) {
-
-			case LOW:
-				colorID = R.color.priority_low;
-				break;
-			case MEDIUM:
-				colorID = R.color.priority_medium;
-				break;
-			case HIGH:
-				colorID = R.color.priority_high;
-				break;
-		}
-
-		return colorID;
 	}
 }
