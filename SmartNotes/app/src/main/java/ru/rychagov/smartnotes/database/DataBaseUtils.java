@@ -66,7 +66,7 @@ public class DataBaseUtils {
 		DataBaseHelper dataBaseHelper = new DataBaseHelper(context);
 		SQLiteDatabase db = dataBaseHelper.getWritableDatabase();
 
-		db.delete(NotesEntry.TABLE_NAME, NotesEntry._ID, new String[] {"" + note.getId()});
+		db.delete(NotesEntry.TABLE_NAME, NotesEntry._ID + "=?", new String[] {"" + note.getId()});
 
 		db.close();
 	}

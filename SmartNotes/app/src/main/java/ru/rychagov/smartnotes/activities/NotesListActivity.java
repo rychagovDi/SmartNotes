@@ -78,6 +78,7 @@ public class NotesListActivity extends AppCompatActivity {
 		notes = DataBaseUtils.getNotes(context);
 
 		if (notes.size() != 0) {
+			placeholder.setVisibility(View.INVISIBLE);
 			recyclerView.setLayoutManager(new LinearLayoutManager(context));
 			recyclerView.setAdapter(new NotesAdapter(notes));
 		} else {
@@ -94,8 +95,13 @@ public class NotesListActivity extends AppCompatActivity {
 		@Override
 		public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
 			// TODO Snackbar on delete
+			DataBaseUtils.deleteNote(context, notes.get(viewHolder.getAdapterPosition()));
 			notes.remove(viewHolder.getAdapterPosition());
 			recyclerView.getAdapter().notifyItemRemoved(viewHolder.getAdapterPosition());
+
+			if (notes.size() == 0) {
+				placeholder.setVisibility(View.VISIBLE);
+			}
 		}
 	};
 
