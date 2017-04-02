@@ -27,9 +27,9 @@ public class DataBaseUtils {
 		ArrayList<Note> notes = new ArrayList<>();
 
 		if (cursor != null) {
-			cursor.moveToPosition(-1);
+			cursor.moveToPosition(cursor.getCount());
 
-			while (cursor.moveToNext()) {
+			while (cursor.moveToPrevious()) {
 				int id = cursor.getInt(cursor.getColumnIndex(NotesEntry._ID));
 				String title = cursor.getString(cursor.getColumnIndex(NotesEntry.COLUMN_TITLE));
 				String text = cursor.getString(cursor.getColumnIndex(NotesEntry.COLUMN_TEXT));
@@ -66,7 +66,7 @@ public class DataBaseUtils {
 
 			cursor.close();
 		}
-		
+
 		db.close();
 
 		return note;
