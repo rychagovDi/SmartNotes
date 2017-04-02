@@ -23,4 +23,8 @@
     <string name="preview_remove_note">Удалить</string>
     <string name="preview_edit_note">Изменить</string>
     <string name="button_apply">Сохранить</string>
+    <string name="save_as_file">Сохранить в файл</string>
+    <string name="save_as_file_permission">Выдайте необходимые разрешения в настройках</string>
+    <string name="saved_in">Сохранено в: </string>
+    <string name="saving_error">Не сохранено</string>
 </resources>

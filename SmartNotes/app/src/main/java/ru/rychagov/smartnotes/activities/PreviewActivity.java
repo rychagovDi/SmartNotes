@@ -1,8 +1,11 @@
 package ru.rychagov.smartnotes.activities;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -99,10 +102,7 @@ public class PreviewActivity extends AppCompatActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == R.id.action_remove_note) {
-			Intent intent = new Intent();
-			intent.putExtra(EXTRA_POSITION, position);
-			setResult(RESULT_REMOVE, intent);
-			finish();
+			removeNote();
 			return true;
 		}
 
@@ -110,6 +110,11 @@ public class PreviewActivity extends AppCompatActivity {
 			if (!editing) {
 				openEditMode();
 			}
+			return true;
+		}
+
+		if (item.getItemId() == R.id.action_save_as_file) {
+			saveAsFile();
 			return true;
 		}
 
@@ -125,6 +130,28 @@ public class PreviewActivity extends AppCompatActivity {
 		}
 
 		super.onBackPressed();
+	}
+
+	private void saveAsFile() {
+		if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+
+			String path = NoteUtils.saveAsFile(note);
+
+			if (path != null) {
+				Toast.makeText(getApplicationContext(), getString(R.string.saved_in) + " " + path, Toast.LENGTH_LONG).show();
+			} else {
+				Toast.makeText(getApplicationContext(), R.string.saving_error, Toast.LENGTH_SHORT).show();
+			}
+		} else {
+			Toast.makeText(getApplicationContext(), R.string.save_as_file_permission, Toast.LENGTH_SHORT).show();
+		}
+	}
+
+	private void removeNote() {
+		Intent intent = new Intent();
+		intent.putExtra(EXTRA_POSITION, position);
+		setResult(RESULT_REMOVE, intent);
+		finish();
 	}
 
 	private void openEditMode() {
