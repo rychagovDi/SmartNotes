@@ -4,6 +4,7 @@
     <!--NotesListActivity-->
     <string name="add_note">Добавить заметку</string>
     <string name="no_items">Нет заметок</string>
+    <string name="item_deleted">Заметка удалена</string>
 
     <!--CreateNoteActivity-->
     <string name="create_note_title">Заголовок</string>
@@ -16,6 +17,9 @@
     <string name="priority_high">Высокий</string>
     <string name="button_add">Добавить</string>
     <string name="button_cancel">Отменить</string>
-    <string name="item_deleted">Заметка удалена</string>
+
+    <!--PreviewActivity-->
     <string name="preview_title">Заметка</string>
+    <string name="preview_remove_note">Удалить</string>
+    <string name="preview_edit_note">Изменить</string>
 </resources>

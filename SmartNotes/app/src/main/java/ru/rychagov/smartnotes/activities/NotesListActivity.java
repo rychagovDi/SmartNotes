@@ -57,6 +57,12 @@ public class NotesListActivity extends AppCompatActivity implements NoteCallback
 				recyclerView.getAdapter().notifyItemInserted(0);
 			}
 		}
+
+		if (requestCode == REQUEST_OPEN_NOTE) {
+			if (resultCode == PreviewActivity.RESULT_REMOVE) {
+				removeNote(data.getIntExtra(PreviewActivity.EXTRA_POSITION, 0));
+			}
+		}
 	}
 
 	@Override
