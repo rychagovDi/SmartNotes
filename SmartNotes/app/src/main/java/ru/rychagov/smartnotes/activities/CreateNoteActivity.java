@@ -40,11 +40,17 @@ public class CreateNoteActivity extends AppCompatActivity {
 		spinner.setAdapter(new SpinnerAdapter(getApplicationContext(), android.R.layout.simple_spinner_item));
 	}
 
+	/**
+	 * Закрывает текущую активность и сообщает вызывающей активности, что заметка не была создана
+	 */
 	public void cancel(View view) {
 		setResult(RESULT_CANCEL);
 		finish();
 	}
 
+	/**
+	 * Звкрывает текущую активность, добавляет заметку в базу данных и сообщает вызывающей активности об этом
+	 */
 	public void add(View view) {
 
 		if (!isValid()) {
@@ -67,6 +73,9 @@ public class CreateNoteActivity extends AppCompatActivity {
 		finish();
 	}
 
+	/**
+	 * Проверяет правильность заполнения полей
+	 */
 	private boolean isValid() {
 		return (!textEdit.getText().toString().trim().equals("") && !titleEdit.getText().toString().trim().equals(""));
 	}

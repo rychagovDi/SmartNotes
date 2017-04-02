@@ -32,7 +32,9 @@ public class SpinnerAdapter extends ArrayAdapter<String> {
 		return getCustomView(position, convertView, parent);
 	}
 
-
+	/**
+	 * Возвращает кастомные view для элементов выпадающего списка
+	 */
 	private View getCustomView(int position, View convertView, ViewGroup parent) {
 
 		if (convertView == null) {

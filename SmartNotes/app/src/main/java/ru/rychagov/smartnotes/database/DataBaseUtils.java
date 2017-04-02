@@ -46,6 +46,9 @@ public class DataBaseUtils {
 		return notes;
 	}
 
+	/**
+	 * Возвращает заметку с конкретным id
+	 */
 	public static Note getNote(Context context, int id) {
 
 		DataBaseHelper dataBaseHelper = new DataBaseHelper(context);

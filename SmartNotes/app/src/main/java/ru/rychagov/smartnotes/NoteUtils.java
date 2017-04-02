@@ -15,6 +15,9 @@ import ru.rychagov.smartnotes.data.Priority;
 
 public class NoteUtils {
 
+	/**
+	 * Возвращает цвет, соответствующий определенной важности заметки
+	 */
 	public static int getColorFromPriority(Priority priority) {
 
 		int colorID = R.color.priority_default;
@@ -35,11 +38,18 @@ public class NoteUtils {
 		return colorID;
 	}
 
+	/**
+	 * Преобразует timestamp в строковое представление даты
+	 */
 	public static String getStringDate(long time) {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy", Locale.ENGLISH);
 		return sdf.format(new Date(time));
 	}
 
+	/**
+	 * Сохраняет заметку в виде файла.
+	 * Возвращает директорию, в которой сохранился файл, либо null при ошибке сохранения
+	 */
 	public static String saveAsFile(Note note) {
 		File docsFolder = new File(Environment.getExternalStorageDirectory() + "/Documents");
 

@@ -57,6 +57,7 @@ public class NotesListActivity extends AppCompatActivity implements NoteCallback
 
 				updateNotes();
 
+				// Необходимо для более плавной анимации добавления заметки
 				new Handler().postDelayed(new Runnable() {
 					@Override
 					public void run() {
@@ -70,6 +71,8 @@ public class NotesListActivity extends AppCompatActivity implements NoteCallback
 
 		if (requestCode == REQUEST_OPEN_NOTE) {
 			if (resultCode == PreviewActivity.RESULT_REMOVE) {
+
+				// Необходимо для более плавной анимации удаления заметки
 				new Handler().postDelayed(new Runnable() {
 					@Override
 					public void run() {
@@ -127,6 +130,9 @@ public class NotesListActivity extends AppCompatActivity implements NoteCallback
 		validatePlaceholder();
 	}
 
+	/**
+	 * Делает placeholder видимым или невидимым в зависимости от наличия заметок в списке
+	 */
 	private void validatePlaceholder() {
 		if (notes.size() == 0) {
 			placeholder.setVisibility(View.VISIBLE);
@@ -135,12 +141,18 @@ public class NotesListActivity extends AppCompatActivity implements NoteCallback
 		}
 	}
 
+	/**
+	 * Загружает новый список заметок из базы данных
+	 */
 	private void updateNotes() {
 		notes.clear();
 		notes.addAll(DataBaseUtils.getNotes(context));
 		validatePlaceholder();
 	}
 
+	/**
+	 * Удаляет заметку из списка и базы данных
+	 */
 	private void removeNote(int position) {
 		removedNotePosition = position;
 		removedNote = notes.get(removedNotePosition);
@@ -154,6 +166,9 @@ public class NotesListActivity extends AppCompatActivity implements NoteCallback
 		validatePlaceholder();
 	}
 
+	/**
+	 * Выводит Snackbar с сообщением об удалении заметки и кнопкой для отмены удаления
+	 */
 	private void showSnackbar() {
 		Snackbar.make(recyclerView, R.string.item_deleted, Snackbar.LENGTH_SHORT).
 						setAction(R.string.button_cancel, new View.OnClickListener() {

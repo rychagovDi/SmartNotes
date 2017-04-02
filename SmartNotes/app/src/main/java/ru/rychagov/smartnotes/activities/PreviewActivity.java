@@ -35,7 +35,7 @@ public class PreviewActivity extends AppCompatActivity {
 	private String EDITING = "EDITING";
 	private boolean editing;
 
-	private int position;
+	private int position; // Позиция в списке просматриваемой заметки
 	private Note note;
 
 	private ViewFlipper viewFlipper;
@@ -60,6 +60,7 @@ public class PreviewActivity extends AppCompatActivity {
 
 		viewFlipper = (ViewFlipper) findViewById(R.id.preview_view_flipper);
 
+		// Если до пересоздания активность находилась в режиме редактирования, возвращает в него
 		if (editing) {
 			viewFlipper.showNext();
 		}
@@ -78,13 +79,6 @@ public class PreviewActivity extends AppCompatActivity {
 		note = DataBaseUtils.getNote(getApplicationContext(), getIntent().getIntExtra(EXTRA_ID, 1));
 
 		updateUI();
-	}
-
-	private void updateUI() {
-		title.setText(note.getTitle());
-		titleRoot.setBackground(getGradient(note.getPriority()));
-		text.setText(note.getText());
-		time.setText(NoteUtils.getStringDate(note.getTime()));
 	}
 
 	@Override
@@ -124,6 +118,7 @@ public class PreviewActivity extends AppCompatActivity {
 	@Override
 	public void onBackPressed() {
 
+		// Если активность находилась в режиме редактирования - переводит в режим просмотра
 		if (editing) {
 			closeEditMode();
 			return;
@@ -132,6 +127,20 @@ public class PreviewActivity extends AppCompatActivity {
 		super.onBackPressed();
 	}
 
+	/**
+	 * Обновляет информацию в пользовательском интерфейсе
+	 */
+	private void updateUI() {
+		title.setText(note.getTitle());
+		titleRoot.setBackground(getGradient(note.getPriority()));
+		text.setText(note.getText());
+		time.setText(NoteUtils.getStringDate(note.getTime()));
+	}
+
+	/**
+	 * Сохраняет заметку в виде текстового файла.
+	 * Если пользователь не выдал разрешение на запись - выводит сообщение об этом
+	 */
 	private void saveAsFile() {
 		if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
 
@@ -147,6 +156,10 @@ public class PreviewActivity extends AppCompatActivity {
 		}
 	}
 
+	/**
+	 * Закрывает текущую активность и передает информацию в вызывающую активность, что заметку на позиции
+	 * position небходимо удалить
+	 */
 	private void removeNote() {
 		Intent intent = new Intent();
 		intent.putExtra(EXTRA_POSITION, position);
@@ -154,6 +167,9 @@ public class PreviewActivity extends AppCompatActivity {
 		finish();
 	}
 
+	/**
+	 * Переводит активность в режим редактирования заметки
+	 */
 	private void openEditMode() {
 		editTitle.setText(note.getTitle());
 		editText.setText(note.getText());
@@ -163,6 +179,9 @@ public class PreviewActivity extends AppCompatActivity {
 		editing = true;
 	}
 
+	/**
+	 * Переводит активность в режим просмотра заметки
+	 */
 	private void closeEditMode() {
 		viewFlipper.showPrevious();
 		editing = false;
@@ -176,6 +195,9 @@ public class PreviewActivity extends AppCompatActivity {
 		applyChanges();
 	}
 
+	/**
+	 * Сохраняет изменения, внесенные в заметку
+	 */
 	private void applyChanges() {
 
 		if (!isValid()) {
@@ -198,10 +220,16 @@ public class PreviewActivity extends AppCompatActivity {
 		updateUI();
 	}
 
+	/**
+	 * Проверяет правильность заполнения полей в режиме редактирования заметки
+	 */
 	private boolean isValid() {
 		return (!editText.getText().toString().trim().equals("") && !editTitle.getText().toString().trim().equals(""));
 	}
 
+	/**
+	 * Вовзращает объект {@link GradientDrawable}, соответствующий определенной важности заметки
+	 */
 	private GradientDrawable getGradient(Priority priority) {
 
 		GradientDrawable drawable;
