@@ -2,9 +2,9 @@ package ru.rychagov.smartnotes.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -34,13 +34,47 @@ public class NotesListActivity extends AppCompatActivity {
 
 	private Note removedNote;
 	private int removedNotePosition;
+	private ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+		@Override
+		public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+			return false;
+		}
+
+		@Override
+		public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+			removedNotePosition = viewHolder.getAdapterPosition();
+			removedNote = notes.get(removedNotePosition);
+
+			DataBaseUtils.removeNote(context, removedNote);
+			notes.remove(removedNotePosition);
+			recyclerView.getAdapter().notifyItemRemoved(removedNotePosition);
+
+			showSnackbar();
+
+			validatePlaceholder();
+		}
+
+		private void showSnackbar() {
+			Snackbar.make(recyclerView, R.string.item_deleted, Snackbar.LENGTH_SHORT).
+							setAction(R.string.button_cancel, new View.OnClickListener() {
+								@Override
+								public void onClick(View v) {
+									DataBaseUtils.addNote(context, removedNote);
+									notes.add(removedNotePosition, removedNote);
+									recyclerView.getAdapter().notifyItemInserted(removedNotePosition);
+									placeholder.setVisibility(View.INVISIBLE);
+								}
+							}).show();
+		}
+	};
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 		if (requestCode == REQUEST_CREATE_NOTE) {
 			if (resultCode == CreateNoteActivity.RESULT_ADD) {
-				updateUI();
+				updateNotes();
+				recyclerView.getAdapter().notifyItemInserted(0);
 			}
 		}
 	}
@@ -57,7 +91,7 @@ public class NotesListActivity extends AppCompatActivity {
 		itemTouchHelper.attachToRecyclerView(recyclerView);
 		placeholder = (TextView) findViewById(R.id.notes_list_placeholder);
 
-		updateUI();
+		initUI();
 	}
 
 	@Override
@@ -78,52 +112,27 @@ public class NotesListActivity extends AppCompatActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	private void updateUI() {
+	private void initUI() {
 		notes = DataBaseUtils.getNotes(context);
 
-		if (notes.size() != 0) {
-			placeholder.setVisibility(View.INVISIBLE);
-			recyclerView.setLayoutManager(new LinearLayoutManager(context));
-			recyclerView.setAdapter(new NotesAdapter(notes));
-		} else {
+		recyclerView.setLayoutManager(new LinearLayoutManager(context));
+		recyclerView.setAdapter(new NotesAdapter(notes));
+
+		validatePlaceholder();
+	}
+
+	private void validatePlaceholder() {
+		if (notes.size() == 0) {
 			placeholder.setVisibility(View.VISIBLE);
+		} else {
+			placeholder.setVisibility(View.INVISIBLE);
 		}
 	}
 
-	private ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-		@Override
-		public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-			return false;
-		}
-
-		@Override
-		public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-			removedNotePosition = viewHolder.getAdapterPosition();
-			removedNote = notes.get(removedNotePosition);
-
-			DataBaseUtils.removeNote(context, removedNote);
-			notes.remove(removedNotePosition);
-			recyclerView.getAdapter().notifyItemRemoved(removedNotePosition);
-
-			showSnackbar();
-
-			if (notes.size() == 0) {
-				placeholder.setVisibility(View.VISIBLE);
-			}
-		}
-
-		private void showSnackbar() {
-			Snackbar.make(recyclerView, R.string.item_deleted, Snackbar.LENGTH_SHORT).
-							setAction(R.string.button_cancel, new View.OnClickListener() {
-								@Override
-								public void onClick(View v) {
-									DataBaseUtils.addNote(context, removedNote);
-									notes.add(removedNotePosition, removedNote);
-									recyclerView.getAdapter().notifyItemInserted(removedNotePosition);
-									placeholder.setVisibility(View.INVISIBLE);
-								}
-							}).show();
-		}
-	};
+	private void updateNotes() {
+		notes.clear();
+		notes.addAll(DataBaseUtils.getNotes(context));
+		validatePlaceholder();
+	}
 
 }
