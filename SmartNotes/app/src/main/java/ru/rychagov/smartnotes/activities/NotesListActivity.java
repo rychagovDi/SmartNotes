@@ -62,6 +62,11 @@ public class NotesListActivity extends AppCompatActivity implements NoteCallback
 			if (resultCode == PreviewActivity.RESULT_REMOVE) {
 				removeNote(data.getIntExtra(PreviewActivity.EXTRA_POSITION, 0));
 			}
+
+			if (resultCode == PreviewActivity.RESULT_CHANGE) {
+				updateNotes();
+				recyclerView.getAdapter().notifyDataSetChanged();
+			}
 		}
 	}
 

@@ -22,4 +22,5 @@
     <string name="preview_title">Заметка</string>
     <string name="preview_remove_note">Удалить</string>
     <string name="preview_edit_note">Изменить</string>
+    <string name="button_apply">Сохранить</string>
 </resources>

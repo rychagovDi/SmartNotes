@@ -16,8 +16,8 @@ public class SpinnerAdapter extends ArrayAdapter<String> {
 
 	private Context context;
 
-	public SpinnerAdapter(@NonNull Context context, @LayoutRes int resource, String[] objects) {
-		super(context, resource, objects);
+	public SpinnerAdapter(@NonNull Context context, @LayoutRes int resource) {
+		super(context, resource, new String[] {"Без приоритета", "Низкий", "Средний", "Высокий"});
 		this.context = context;
 	}
 

@@ -37,9 +37,7 @@ public class CreateNoteActivity extends AppCompatActivity {
 		textEdit = (EditText) findViewById(R.id.create_note_text);
 
 		spinner = (Spinner) findViewById(R.id.create_note_spinner);
-		spinner.setAdapter(new SpinnerAdapter(getApplicationContext(),
-						android.R.layout.simple_spinner_item,
-						new String[] {"Без приоритета", "Низкий", "Средний", "Высокий"}));
+		spinner.setAdapter(new SpinnerAdapter(getApplicationContext(), android.R.layout.simple_spinner_item));
 	}
 
 	public void cancel(View view) {
