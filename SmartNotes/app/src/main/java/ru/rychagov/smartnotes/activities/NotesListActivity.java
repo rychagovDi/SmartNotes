@@ -3,6 +3,7 @@ package ru.rychagov.smartnotes.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -49,18 +50,32 @@ public class NotesListActivity extends AppCompatActivity implements NoteCallback
 	};
 
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
 
 		if (requestCode == REQUEST_CREATE_NOTE) {
 			if (resultCode == CreateNoteActivity.RESULT_ADD) {
+
 				updateNotes();
-				recyclerView.getAdapter().notifyItemInserted(0);
+
+				new Handler().postDelayed(new Runnable() {
+					@Override
+					public void run() {
+						recyclerView.smoothScrollToPosition(0);
+						recyclerView.getAdapter().notifyItemInserted(0);
+					}
+				}, 350);
+
 			}
 		}
 
 		if (requestCode == REQUEST_OPEN_NOTE) {
 			if (resultCode == PreviewActivity.RESULT_REMOVE) {
-				removeNote(data.getIntExtra(PreviewActivity.EXTRA_POSITION, 0));
+				new Handler().postDelayed(new Runnable() {
+					@Override
+					public void run() {
+						removeNote(data.getIntExtra(PreviewActivity.EXTRA_POSITION, 0));
+					}
+				}, 350);
 			}
 
 			if (resultCode == PreviewActivity.RESULT_CHANGE) {
