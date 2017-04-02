@@ -14,15 +14,21 @@ import ru.rychagov.smartnotes.data.Note;
 public class NotesAdapter extends RecyclerView.Adapter<NotesViewHolder> {
 
 	private ArrayList<Note> notes;
+	private NoteCallback callback;
 
-	public NotesAdapter(ArrayList<Note> notes) {
+	public NotesAdapter(ArrayList<Note> notes, NoteCallback callback) {
 		this.notes = notes;
+		this.callback = callback;
 	}
 
 	@Override
 	public NotesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.note_item, parent, false);
-		return new NotesViewHolder(view);
+
+		NotesViewHolder viewHolder = new NotesViewHolder(view, callback);
+		view.setOnClickListener(viewHolder.getOnNoteClickListener());
+
+		return viewHolder;
 	}
 
 	@Override
@@ -32,6 +38,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesViewHolder> {
 		holder.getRoot().setBackgroundResource(NoteUtils.getColorFromPriority(note.getPriority()));
 		holder.getTitle().setText(note.getTitle());
 		holder.getTime().setText(NoteUtils.getStringDate(note.getTime()));
+		holder.getOnNoteClickListener().setPosition(position);
 	}
 
 	@Override

@@ -17,15 +17,17 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import ru.rychagov.smartnotes.R;
+import ru.rychagov.smartnotes.adapters.NoteCallback;
 import ru.rychagov.smartnotes.adapters.NotesAdapter;
 import ru.rychagov.smartnotes.data.Note;
 import ru.rychagov.smartnotes.database.DataBaseUtils;
 
-public class NotesListActivity extends AppCompatActivity {
+public class NotesListActivity extends AppCompatActivity implements NoteCallback {
 
 	private static final String TAG = "NotesListActivity";
 
 	private static final int REQUEST_CREATE_NOTE = 1;
+	private static final int REQUEST_OPEN_NOTE = 2;
 
 	private ArrayList<Note> notes;
 	private RecyclerView recyclerView;
@@ -42,29 +44,7 @@ public class NotesListActivity extends AppCompatActivity {
 
 		@Override
 		public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-			removedNotePosition = viewHolder.getAdapterPosition();
-			removedNote = notes.get(removedNotePosition);
-
-			DataBaseUtils.removeNote(context, removedNote);
-			notes.remove(removedNotePosition);
-			recyclerView.getAdapter().notifyItemRemoved(removedNotePosition);
-
-			showSnackbar();
-
-			validatePlaceholder();
-		}
-
-		private void showSnackbar() {
-			Snackbar.make(recyclerView, R.string.item_deleted, Snackbar.LENGTH_SHORT).
-							setAction(R.string.button_cancel, new View.OnClickListener() {
-								@Override
-								public void onClick(View v) {
-									DataBaseUtils.addNote(context, removedNote);
-									notes.add(removedNotePosition, removedNote);
-									recyclerView.getAdapter().notifyItemInserted(removedNotePosition);
-									placeholder.setVisibility(View.INVISIBLE);
-								}
-							}).show();
+			removeNote(viewHolder.getAdapterPosition());
 		}
 	};
 
@@ -116,7 +96,7 @@ public class NotesListActivity extends AppCompatActivity {
 		notes = DataBaseUtils.getNotes(context);
 
 		recyclerView.setLayoutManager(new LinearLayoutManager(context));
-		recyclerView.setAdapter(new NotesAdapter(notes));
+		recyclerView.setAdapter(new NotesAdapter(notes, this));
 
 		validatePlaceholder();
 	}
@@ -135,4 +115,38 @@ public class NotesListActivity extends AppCompatActivity {
 		validatePlaceholder();
 	}
 
+	private void removeNote(int position) {
+		removedNotePosition = position;
+		removedNote = notes.get(removedNotePosition);
+
+		DataBaseUtils.removeNote(context, removedNote);
+		notes.remove(removedNotePosition);
+		recyclerView.getAdapter().notifyItemRemoved(removedNotePosition);
+
+		showSnackbar();
+
+		validatePlaceholder();
+	}
+
+	private void showSnackbar() {
+		Snackbar.make(recyclerView, R.string.item_deleted, Snackbar.LENGTH_SHORT).
+						setAction(R.string.button_cancel, new View.OnClickListener() {
+							@Override
+							public void onClick(View v) {
+								DataBaseUtils.addNote(context, removedNote);
+								notes.add(removedNotePosition, removedNote);
+								recyclerView.getAdapter().notifyItemInserted(removedNotePosition);
+								placeholder.setVisibility(View.INVISIBLE);
+							}
+						}).show();
+	}
+
+	@Override
+	public void onNoteClick(int position) {
+		Intent intent = new Intent(this, PreviewActivity.class);
+		intent.putExtra(PreviewActivity.EXTRA_ID, notes.get(position).getId());
+		intent.putExtra(PreviewActivity.EXTRA_POSITION, position);
+		
+		startActivityForResult(intent, REQUEST_OPEN_NOTE);
+	}
 }

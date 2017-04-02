@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SmartNotes</string>
+    <string name="app_name">Smart Notes</string>
 
     <!--NotesListActivity-->
     <string name="add_note">Добавить заметку</string>

@@ -4,8 +4,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="background_notes_list_activity">#eaeded</color>
-    <color name="background_create_note_activity">#eaeded</color>
+    <color name="background">#eaeded</color>
     <color name="placeholder">#c4c4c4</color>
 
     <color name="priority_default">#b4b4b4</color>
