@@ -17,4 +17,5 @@
     <string name="button_add">Добавить</string>
     <string name="button_cancel">Отменить</string>
     <string name="item_deleted">Заметка удалена</string>
+    <string name="preview_title">Заметка</string>
 </resources>

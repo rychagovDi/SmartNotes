@@ -1,11 +1,13 @@
 package ru.rychagov.smartnotes.activities;
 
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import ru.rychagov.smartnotes.R;
 import ru.rychagov.smartnotes.data.Note;
+import ru.rychagov.smartnotes.data.Priority;
 import ru.rychagov.smartnotes.database.DataBaseUtils;
 
 public class PreviewActivity extends AppCompatActivity {
@@ -24,6 +26,8 @@ public class PreviewActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.a_preview);
 
+		setTitle(R.string.preview_title);
+
 		title = (TextView) findViewById(R.id.preview_title);
 		text = (TextView) findViewById(R.id.preview_text);
 
@@ -35,6 +39,30 @@ public class PreviewActivity extends AppCompatActivity {
 
 	private void updateUI() {
 		title.setText(note.getTitle());
+		title.setBackground(getGradient(note.getPriority()));
 		text.setText(note.getText());
+	}
+
+	private GradientDrawable getGradient (Priority priority) {
+
+		GradientDrawable drawable;
+
+		switch (priority) {
+			case LOW:
+				drawable = (GradientDrawable) getResources().getDrawable(R.drawable.gradient_preview_priority_low);
+				break;
+			case MEDIUM:
+				drawable = (GradientDrawable) getResources().getDrawable(R.drawable.gradient_preview_priority_medium);
+				break;
+			case HIGH:
+				drawable = (GradientDrawable) getResources().getDrawable(R.drawable.gradient_preview_priority_high);
+				break;
+			case NONE:
+			default:
+				drawable = new GradientDrawable();
+				break;
+		}
+
+		return drawable;
 	}
 }
