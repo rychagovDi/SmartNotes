@@ -61,8 +61,13 @@ public class NotesListActivity extends AppCompatActivity implements NoteCallback
 				new Handler().postDelayed(new Runnable() {
 					@Override
 					public void run() {
-						recyclerView.smoothScrollToPosition(0);
+						// Без этой проверки пролистывание в начало списка выдает ошибку
+						if (((LinearLayoutManager) recyclerView.getLayoutManager()).findFirstCompletelyVisibleItemPosition() > 0 ||
+										((LinearLayoutManager) recyclerView.getLayoutManager()).findLastCompletelyVisibleItemPosition() < notes.size()) {
+							recyclerView.smoothScrollToPosition(0);
+						}
 						recyclerView.getAdapter().notifyItemInserted(0);
+
 					}
 				}, 350);
 
@@ -187,7 +192,7 @@ public class NotesListActivity extends AppCompatActivity implements NoteCallback
 		Intent intent = new Intent(this, PreviewActivity.class);
 		intent.putExtra(PreviewActivity.EXTRA_ID, notes.get(position).getId());
 		intent.putExtra(PreviewActivity.EXTRA_POSITION, position);
-		
+
 		startActivityForResult(intent, REQUEST_OPEN_NOTE);
 	}
 }
