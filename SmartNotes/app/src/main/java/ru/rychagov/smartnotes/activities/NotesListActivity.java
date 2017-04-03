@@ -68,6 +68,7 @@ public class NotesListActivity extends AppCompatActivity implements NoteCallback
 							recyclerView.smoothScrollToPosition(0);
 						}
 						recyclerView.getAdapter().notifyItemInserted(0);
+						recyclerView.getAdapter().notifyItemRangeChanged(0, notes.size());
 
 					}
 				}, 350);
@@ -166,6 +167,7 @@ public class NotesListActivity extends AppCompatActivity implements NoteCallback
 		DataBaseUtils.removeNote(context, removedNote);
 		notes.remove(removedNotePosition);
 		recyclerView.getAdapter().notifyItemRemoved(removedNotePosition);
+		recyclerView.getAdapter().notifyItemRangeChanged(position, notes.size());
 
 		showSnackbar();
 
