@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -175,6 +176,8 @@ public class PreviewActivity extends AppCompatActivity {
 		editText.setText(note.getText());
 		spinner.setSelection(note.getPriority().getInt());
 
+		viewFlipper.setInAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.open_edit_mode_in));
+		viewFlipper.setOutAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.open_edit_mode_out));
 		viewFlipper.showNext();
 		editing = true;
 	}
@@ -183,6 +186,8 @@ public class PreviewActivity extends AppCompatActivity {
 	 * Переводит активность в режим просмотра заметки
 	 */
 	private void closeEditMode() {
+		viewFlipper.setInAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.close_edit_mode_in));
+		viewFlipper.setOutAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.close_edit_mode_out));
 		viewFlipper.showPrevious();
 		editing = false;
 	}

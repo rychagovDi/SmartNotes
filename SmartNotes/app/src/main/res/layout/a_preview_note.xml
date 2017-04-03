@@ -3,9 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/preview_view_flipper"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:inAnimation="@anim/translate_right_in"
-    android:outAnimation="@anim/translate_right_out">
+    android:layout_height="match_parent">
 
     <include layout="@layout/preview_viewing"/>
     <include layout="@layout/preview_editing"/>
