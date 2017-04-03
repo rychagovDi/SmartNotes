@@ -18,6 +18,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import ru.rychagov.smartnotes.R;
+import ru.rychagov.smartnotes.adapters.AntiBugLinearLayoutManager;
 import ru.rychagov.smartnotes.adapters.NoteCallback;
 import ru.rychagov.smartnotes.adapters.NotesAdapter;
 import ru.rychagov.smartnotes.data.Note;
@@ -129,7 +130,7 @@ public class NotesListActivity extends AppCompatActivity implements NoteCallback
 	private void initUI() {
 		notes = DataBaseUtils.getNotes(context);
 
-		recyclerView.setLayoutManager(new LinearLayoutManager(context));
+		recyclerView.setLayoutManager(new AntiBugLinearLayoutManager(context));
 		recyclerView.setAdapter(new NotesAdapter(notes, this));
 
 		validatePlaceholder();

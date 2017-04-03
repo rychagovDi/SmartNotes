@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -59,6 +60,9 @@ public class CreateNoteActivity extends AppCompatActivity {
 		}
 
 		setResult(RESULT_ADD);
+
+		InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+		imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 
 		int id = DataBaseUtils.getMaxID(context) + 1;
 		String title = titleEdit.getText().toString().trim();
