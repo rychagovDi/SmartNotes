@@ -185,6 +185,7 @@ public class NotesListActivity extends AppCompatActivity implements NoteCallback
 								DataBaseUtils.addNote(context, removedNote);
 								notes.add(removedNotePosition, removedNote);
 								recyclerView.getAdapter().notifyItemInserted(removedNotePosition);
+								recyclerView.getAdapter().notifyItemRangeChanged(removedNotePosition, notes.size());
 								placeholder.setVisibility(View.INVISIBLE);
 							}
 						}).show();
